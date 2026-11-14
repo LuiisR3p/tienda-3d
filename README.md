@@ -13,11 +13,11 @@ Para poner fotos reales, súbelas a la carpeta `fotos/` y escribe en el producto
 
 Puedes editar el archivo directo en GitHub (botón del lápiz ✏️) y guardar con "Commit changes".
 
-## Cómo publicarla gratis (GitHub Pages)
+## Dónde está publicada
 
-1. En el repositorio entra a **Settings → Pages**.
-2. En "Branch" elige `main` y la carpeta `/ (root)`, y dale **Save**.
-3. En uno o dos minutos tu página queda en `https://luiisr3p.github.io/tienda-3d/`.
+La página está en Vercel: **https://tienda-3d-omega.vercel.app**
+
+Cada vez que guardas un cambio en la rama `main` de este repositorio, Vercel la vuelve a publicar sola en uno o dos minutos.
 
 ## Sobre derechos de autor
 
