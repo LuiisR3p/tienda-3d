@@ -97,6 +97,8 @@
   .plush svg { width: 100%; max-width: 340px; height: auto; filter: drop-shadow(0 14px 18px rgba(46,36,51,.15)); }
   .ref { position: absolute; top: 18px; right: 18px; width: 92px; text-align: center; font-size: .75rem; font-weight: 700; color: var(--muted); }
   .ref img { width: 92px; height: 92px; object-fit: cover; border-radius: 18px; border: 4px solid #fff; box-shadow: 0 6px 16px rgba(0,0,0,.12); transform: rotate(4deg); display: block; margin-bottom: 4px; }
+  #cojin { width: 100%; max-width: 360px; height: auto; display: block; margin: 0 auto; }
+  .status { font-weight: 700; color: var(--accent); margin: 8px 0 0; }
   .note { font-size: .85rem; color: var(--muted); margin: 8px 0 0; }
   .panel { background: var(--card); border: 1px solid var(--line); border-radius: 30px; padding: 24px; display: grid; gap: 18px; }
   label { font-weight: 700; font-size: .95rem; display: block; margin-bottom: 8px; }
@@ -110,7 +112,7 @@
   .opts button { font: inherit; font-weight: 700; border: 2px solid var(--line); background: #fff; color: var(--ink); border-radius: 999px; padding: 8px 14px; cursor: pointer; }
   .opts button[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: #fff; }
   .colors button { width: 38px; height: 38px; padding: 0; border-width: 3px; }
-  .colors button[aria-pressed="true"] { outline: 3px solid var(--ink); outline-offset: 2px; border-color: #fff; background: inherit; }
+  .colors button[aria-pressed="true"] { outline: 3px solid var(--ink); outline-offset: 2px; border-color: #fff; }
   .hint { margin: -8px 0 0; font-size: .85rem; color: var(--muted); text-align: center; }
 
   footer { padding: 32px 0 48px; color: var(--muted); font-size: .9rem; text-align: center; }
@@ -147,11 +149,11 @@
 <main class="wrap">
   <div class="hero">
     <div>
-      <h1>Tu peluche, <em>a tu estilo</em>.</h1>
+      <h1>Tu foto, convertida en <em>cojín</em>.</h1>
       <p id="eslogan"></p>
       <div class="actions">
         <a href="#catalogo" class="btn">Ver catálogo</a>
-        <a href="#personalizado" class="btn ghost">Diseña el tuyo</a>
+        <a href="#personalizado" class="btn ghost">Sube tu foto</a>
       </div>
     </div>
     <div class="blob" aria-hidden="true">🧸</div>
@@ -176,38 +178,58 @@
   </section>
 
   <section id="personalizado">
-    <div class="section-head"><h2>Diseña tu peluche</h2></div>
+    <div class="section-head">
+      <h2>Diseña el tuyo</h2>
+      <div class="filters" id="modo">
+        <button class="chip" data-modo="cojin" aria-pressed="true">Cojín con tu foto</button>
+        <button class="chip" data-modo="peluche" aria-pressed="false">Peluche</button>
+      </div>
+    </div>
     <div class="designer">
       <div class="stage">
-        <div class="plush" id="plush" aria-label="Vista previa de tu peluche"></div>
+        <div data-solo="cojin"><canvas id="cojin" width="600" height="600" aria-label="Vista previa de tu cojín"></canvas></div>
+        <div data-solo="peluche" hidden><div class="plush" id="plush" aria-label="Vista previa de tu peluche"></div></div>
         <div class="ref" id="ref-box" hidden>
-          <img id="ref-img" alt="Tu foto de referencia">
-          <span>Tu referencia</span>
+          <img id="ref-img" alt="Tu foto">
+          <span>Tu foto</span>
         </div>
-        <p class="note">Vista previa de ejemplo. El peluche final lo hacemos a mano según tu foto y te mandamos un boceto antes de empezar.</p>
+        <p class="status" id="estado" hidden></p>
+        <p class="note">Vista previa de ejemplo. El producto final lo hacemos a mano según tu foto y te mandamos un boceto antes de empezar.</p>
       </div>
       <form id="form-pedido" class="panel">
         <div>
-          <label>1. Sube tu foto (tu mascota, tu dibujo, tu idea)</label>
+          <label>1. Sube tu foto (tu mascota, tu familia, tu dibujo)</label>
           <label class="upload" for="f-foto">📷 <span id="f-foto-txt">Elegir foto</span></label>
           <input type="file" id="f-foto" accept="image/*" hidden>
-          <label class="check" id="estampar-wrap" hidden><input type="checkbox" id="f-estampar"> Estampar mi foto en la pancita</label>
+          <label class="check" id="estampar-wrap" data-solo="peluche" hidden><input type="checkbox" id="f-estampar"> Estampar mi foto en la pancita</label>
         </div>
-        <div>
+        <div data-solo="cojin">
+          <label>2. Forma</label>
+          <div class="opts" id="f-forma"></div>
+        </div>
+        <div data-solo="cojin">
+          <label>3. Color del borde</label>
+          <div class="opts colors" id="f-borde"></div>
+        </div>
+        <div data-solo="cojin">
+          <label>4. Tamaño</label>
+          <div class="opts" id="f-tam"></div>
+        </div>
+        <div data-solo="peluche" hidden>
           <label>2. Modelo</label>
           <div class="opts" id="f-modelo"></div>
         </div>
-        <div>
+        <div data-solo="peluche" hidden>
           <label>3. Color</label>
           <div class="opts colors" id="f-color"></div>
         </div>
-        <div>
+        <div data-solo="peluche" hidden>
           <label>4. Accesorio</label>
           <div class="opts" id="f-acc"></div>
         </div>
-        <div><label for="f-texto">5. Nombre bordado (opcional)</label><input id="f-texto" maxlength="12" placeholder="Ej: Luna"></div>
+        <div data-solo="peluche" hidden><label for="f-texto">5. Nombre bordado (opcional)</label><input id="f-texto" maxlength="12" placeholder="Ej: Luna"></div>
         <div><label for="f-nombre">Tu nombre</label><input id="f-nombre" required></div>
-        <div><label for="f-idea">Detalles extra (tamaño, ropa, lo que quieras)</label><textarea id="f-idea"></textarea></div>
+        <div><label for="f-idea">Detalles extra (lo que quieras)</label><textarea id="f-idea"></textarea></div>
         <button class="btn wa" type="submit">💬 Enviar mi diseño por WhatsApp</button>
         <p class="hint">Al abrir el chat, adjunta tu foto para que la veamos.</p>
       </form>
@@ -266,7 +288,7 @@
   pintar();
 
   // Diseñador de peluche
-  const D = { modelo: "Oso", color: "#C98B5B", acc: "Ninguno", foto: null };
+  const D = { modo: "cojin", modelo: "Oso", color: "#C98B5B", acc: "Ninguno", foto: null, fotoImg: null, recorte: null, forma: "Silueta", borde: "#FFFFFF", tam: COJIN.tamanos[1].nombre };
   const MODELOS = ["Oso", "Conejo", "Gato", "Perro"];
   const COLORES = { "Café": "#C98B5B", "Rosado": "#F2A7B8", "Blanco": "#F4EFEA", "Gris": "#A9A9B2", "Azul": "#8DB8E0", "Lila": "#B9A6E3", "Verde": "#A8D5A2", "Amarillo": "#F5D46B", "Negro": "#3B3640" };
   const ACCS = ["Ninguno", "Moño", "Corona", "Gorro", "Bufanda", "Corazón"];
@@ -318,31 +340,150 @@
       ${acc}
     </svg>`;
   }
-  const dibujar = () => { document.getElementById("plush").innerHTML = plushSVG(); };
+  
+
+  // ---------- Cojín con foto ----------
+  const BORDES = { "Blanco": "#FFFFFF", "Rosado": "#F7B6C6", "Azul": "#9CC5EC", "Lila": "#C7B6EE", "Amarillo": "#F8DC7A", "Negro": "#2E2433" };
+  const FORMAS = ["Silueta", "Corazón", "Círculo", "Cuadrado"];
+  const lienzo = document.getElementById("cojin"), ctx = lienzo.getContext("2d");
+  const W = 600;
+
+  function forma(nombre, cx, cy, r) {
+    const p = new Path2D();
+    if (nombre === "Círculo") p.arc(cx, cy, r, 0, Math.PI * 2);
+    else if (nombre === "Corazón") {
+      const s = r / 1.0;
+      p.moveTo(cx, cy + s * .95);
+      p.bezierCurveTo(cx - s * 1.25, cy + s * .2, cx - s * 1.1, cy - s * .95, cx - s * .5, cy - s * .95);
+      p.bezierCurveTo(cx - s * .15, cy - s * .95, cx, cy - s * .7, cx, cy - s * .55);
+      p.bezierCurveTo(cx, cy - s * .7, cx + s * .15, cy - s * .95, cx + s * .5, cy - s * .95);
+      p.bezierCurveTo(cx + s * 1.1, cy - s * .95, cx + s * 1.25, cy + s * .2, cx, cy + s * .95);
+    } else p.roundRect(cx - r, cy - r, r * 2, r * 2, r * .28);
+    return p;
+  }
+
+  function cojinVacio() {
+    // Ejemplo cuando aún no hay foto
+    const g = ctx.createLinearGradient(0, 0, W, W); g.addColorStop(0, "#FFE1D2"); g.addColorStop(1, "#F6B3C0");
+    return g;
+  }
+
+  function dibujarCojin() {
+    ctx.clearRect(0, 0, W, W);
+    const img = D.forma === "Silueta" && D.recorte ? D.recorte : D.fotoImg;
+    const usarSilueta = D.forma === "Silueta" && D.recorte;
+    const capa = document.createElement("canvas"); capa.width = capa.height = W;
+    const c = capa.getContext("2d");
+    const borde = 26;
+
+    if (usarSilueta) {
+      // ajustar la silueta dentro del cuadro
+      const m = 460, k = Math.min(m / img.width, m / img.height);
+      const w = img.width * k, h = img.height * k, x = (W - w) / 2, y = (W - h) / 2;
+      // contorno: dibujar la silueta desplazada en círculo y pintarla del color del borde
+      for (let a = 0; a < 360; a += 8) {
+        const r = a * Math.PI / 180;
+        c.drawImage(img, x + Math.cos(r) * borde, y + Math.sin(r) * borde, w, h);
+      }
+      c.drawImage(img, x, y, w, h);
+      c.globalCompositeOperation = "source-in"; c.fillStyle = D.borde; c.fillRect(0, 0, W, W);
+      c.globalCompositeOperation = "source-over";
+      c.drawImage(img, x, y, w, h);
+    } else {
+      const nombre = D.forma === "Silueta" ? "Cuadrado" : D.forma;
+      const r = D.forma === "Corazón" ? 250 : 225;
+      const cy = D.forma === "Corazón" ? W / 2 + 12 : W / 2;
+      c.fillStyle = D.borde; c.fill(forma(nombre, W / 2, cy, r));
+      const dentro = forma(nombre, W / 2, cy, r - borde);
+      c.save(); c.clip(dentro);
+      if (img) {
+        const k = Math.max(W / img.width, W / img.height) * .82;
+        c.drawImage(img, (W - img.width * k) / 2, (W - img.height * k) / 2 + (D.forma === "Corazón" ? 45 : 0), img.width * k, img.height * k);
+      } else { c.fillStyle = cojinVacio(); c.fillRect(0, 0, W, W); c.font = "120px serif"; c.textAlign = "center"; c.textBaseline = "middle"; c.fillText("📷", W / 2, cy); }
+      c.restore();
+      c.setLineDash([10, 8]); c.lineWidth = 3; c.strokeStyle = "rgba(255,255,255,.75)";
+      if (D.borde === "#FFFFFF") c.strokeStyle = "rgba(46,36,51,.18)";
+      c.stroke(forma(nombre, W / 2, cy, r - borde / 2));
+    }
+    // efecto acolchado: brillo al centro, sombra en los bordes
+    c.globalCompositeOperation = "source-atop";
+    const g = c.createRadialGradient(W * .42, W * .38, 30, W / 2, W / 2, W * .52);
+    g.addColorStop(0, "rgba(255,255,255,.22)"); g.addColorStop(.6, "rgba(255,255,255,0)"); g.addColorStop(1, "rgba(40,20,40,.28)");
+    c.fillStyle = g; c.fillRect(0, 0, W, W);
+    c.globalCompositeOperation = "source-over";
+
+    ctx.save(); ctx.shadowColor = "rgba(46,36,51,.28)"; ctx.shadowBlur = 30; ctx.shadowOffsetY = 16;
+    ctx.drawImage(capa, 0, 0); ctx.restore();
+  }
+
+  const estado = t => { const e = document.getElementById("estado"); e.hidden = !t; e.textContent = t || ""; };
+  let quitando = null;
+  async function recortar() {
+    if (!D.foto || D.recorte || quitando) return;
+    estado("✂️ Recortando tu foto… la primera vez puede tardar unos segundos.");
+    try {
+      quitando = import("./vendor/quitar-fondo.js").then(m => m.removeBackground(D.foto, window.QUITAR_FONDO_OPCIONES || {}));
+      const blob = await quitando;
+      const im = new Image(); im.src = URL.createObjectURL(blob); await im.decode();
+      D.recorte = recortarBordes(im); estado("");
+    } catch (err) {
+      console.error(err); estado("No pudimos recortar la foto aquí, pero igual la recortamos nosotros. Mientras tanto te mostramos el cojín cuadrado.");
+    }
+    quitando = null; dibujar();
+  }
+  // quita el espacio transparente alrededor de la silueta
+  function recortarBordes(im) {
+    const c = document.createElement("canvas"); c.width = im.naturalWidth; c.height = im.naturalHeight;
+    const x = c.getContext("2d"); x.drawImage(im, 0, 0);
+    const d = x.getImageData(0, 0, c.width, c.height).data;
+    let t = c.height, b = 0, l = c.width, r = 0;
+    for (let y = 0; y < c.height; y++) for (let i = 0; i < c.width; i++) if (d[(y * c.width + i) * 4 + 3] > 20) { if (y < t) t = y; if (y > b) b = y; if (i < l) l = i; if (i > r) r = i; }
+    if (r <= l || b <= t) return c;
+    const o = document.createElement("canvas"); o.width = r - l + 1; o.height = b - t + 1;
+    o.getContext("2d").drawImage(c, -l, -t); return o;
+  }
+
+  function dibujar() {
+    if (D.modo === "cojin") dibujarCojin();
+    else document.getElementById("plush").innerHTML = plushSVG();
+  }
 
   function opciones(id, lista, clave, esColor) {
     const box = document.getElementById(id);
     box.innerHTML = lista.map(([nombre, valor]) => `<button type="button" data-v="${esc(valor)}" title="${esc(nombre)}" aria-label="${esc(nombre)}" ${esColor ? `style="background:${esc(valor)}"` : ""}>${esColor ? "" : esc(nombre)}</button>`).join("");
     const marcar = () => box.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.v === D[clave]));
-    box.addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; D[clave] = b.dataset.v; marcar(); dibujar(); });
+    box.addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; D[clave] = b.dataset.v; marcar(); dibujar(); if (clave === "forma" && D.forma === "Silueta") recortar(); });
     marcar();
   }
+  opciones("f-forma", FORMAS.map(f => [f, f]), "forma");
+  opciones("f-borde", Object.entries(BORDES), "borde", true);
+  opciones("f-tam", COJIN.tamanos.map(t => [`${t.nombre} · ${pesos(t.precio)}`, t.nombre]), "tam");
   opciones("f-modelo", MODELOS.map(m => [m, m]), "modelo");
   opciones("f-color", Object.entries(COLORES), "color", true);
   opciones("f-acc", ACCS.map(a => [a, a]), "acc");
   document.getElementById("f-texto").addEventListener("input", dibujar);
   document.getElementById("f-estampar").addEventListener("change", dibujar);
 
+  document.getElementById("modo").addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    D.modo = b.dataset.modo;
+    document.querySelectorAll("#modo button").forEach(x => x.setAttribute("aria-pressed", x === b));
+    document.querySelectorAll("[data-solo]").forEach(el => el.hidden = el.dataset.solo !== D.modo || (el.id === "estampar-wrap" && !D.foto));
+    dibujar();
+  });
+
   document.getElementById("f-foto").addEventListener("change", e => {
     const f = e.target.files[0]; if (!f) return;
     const r = new FileReader();
-    r.onload = () => {
-      D.foto = r.result;
+    r.onload = async () => {
+      D.foto = r.result; D.recorte = null;
+      const im = new Image(); im.src = D.foto; await im.decode(); D.fotoImg = im;
       document.getElementById("ref-img").src = D.foto;
       document.getElementById("ref-box").hidden = false;
-      document.getElementById("estampar-wrap").hidden = false;
+      document.getElementById("estampar-wrap").hidden = D.modo !== "peluche";
       document.getElementById("f-foto-txt").textContent = "Cambiar foto";
       dibujar();
+      if (D.forma === "Silueta") recortar();
     };
     r.readAsDataURL(f);
   });
@@ -350,16 +491,22 @@
 
   document.getElementById("form-pedido").addEventListener("submit", e => {
     e.preventDefault();
-    const colorNombre = Object.keys(COLORES).find(k => COLORES[k] === D.color);
-    const texto = document.getElementById("f-texto").value.trim();
-    const msg = [
-      `¡Hola! Soy ${document.getElementById("f-nombre").value}. Diseñé mi peluche en la página:`,
-      `• Modelo: ${D.modelo}`, `• Color: ${colorNombre}`, `• Accesorio: ${D.acc}`,
-      texto && `• Nombre bordado: ${texto}`,
-      D.foto && (document.getElementById("f-estampar").checked ? "• Quiero mi foto estampada en la pancita (te la adjunto)" : "• Te adjunto mi foto de referencia"),
-      document.getElementById("f-idea").value && `• Detalles: ${document.getElementById("f-idea").value}`
-    ].filter(Boolean).join("\n");
-    window.open(waLink(msg), "_blank");
+    const nombreCliente = document.getElementById("f-nombre").value;
+    const idea = document.getElementById("f-idea").value;
+    let lineas;
+    if (D.modo === "cojin") {
+      const t = COJIN.tamanos.find(x => x.nombre === D.tam);
+      const bordeNombre = Object.keys(BORDES).find(k => BORDES[k] === D.borde);
+      lineas = [`¡Hola! Soy ${nombreCliente}. Quiero un cojín con mi foto:`, `• Forma: ${D.forma}`, `• Borde: ${bordeNombre}`, `• Tamaño: ${t.nombre} (${pesos(t.precio)})`, "• Te adjunto la foto"];
+    } else {
+      const colorNombre = Object.keys(COLORES).find(k => COLORES[k] === D.color);
+      const texto = document.getElementById("f-texto").value.trim();
+      lineas = [`¡Hola! Soy ${nombreCliente}. Diseñé mi peluche en la página:`, `• Modelo: ${D.modelo}`, `• Color: ${colorNombre}`, `• Accesorio: ${D.acc}`,
+        texto && `• Nombre bordado: ${texto}`,
+        D.foto && (document.getElementById("f-estampar").checked ? "• Quiero mi foto estampada en la pancita (te la adjunto)" : "• Te adjunto mi foto de referencia")];
+    }
+    if (idea) lineas.push(`• Detalles: ${idea}`);
+    window.open(waLink(lineas.filter(Boolean).join("\n")), "_blank");
   });
 
   // Pie de página

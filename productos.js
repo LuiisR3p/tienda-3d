@@ -5,7 +5,7 @@
 
 const TIENDA = {
   nombre: "Peluches 3D",
-  eslogan: "Peluches y figuras hechos a mano, a tu estilo.",
+  eslogan: "Cojines con la forma de tu foto, peluches y figuras hechos a mano.",
   // Tu número con código de país, sin + ni espacios. Ej: 573001234567
   whatsapp: "573000000000",
   instagram: "", // Ej: "https://instagram.com/tu_usuario"
@@ -21,7 +21,25 @@ const TIENDA = {
 //  precio: en pesos colombianos, sin puntos. Ej: 85000
 // ============================================================
 
+// Precios del cojín con foto (en la sección "Diseña el tuyo")
+const COJIN = {
+  tamanos: [
+    { nombre: "30 cm", precio: 45000 },
+    { nombre: "40 cm", precio: 60000 },
+    { nombre: "50 cm", precio: 80000 },
+  ],
+};
+
 const PRODUCTOS = [
+  {
+    nombre: "Cojín con tu foto",
+    descripcion: "Tu mascota, tu familia o tu dibujo en un cojín con su misma forma.",
+    precio: 45000,
+    foto: "",
+    emoji: "🐾",
+    color: "#FFE1D2",
+    categoria: "Cojines",
+  },
   {
     nombre: "Osito clásico",
     descripcion: "Suave, 30 cm. Elige colores, bordado del nombre y accesorios.",

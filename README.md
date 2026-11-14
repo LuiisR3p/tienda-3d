@@ -8,6 +8,9 @@ Todo se edita en **`productos.js`**:
 
 - `TIENDA`: nombre, eslogan, número de WhatsApp (con 57 adelante, sin + ni espacios), Instagram y TikTok.
 - `PRODUCTOS`: la lista del catálogo. Copia un bloque `{ ... }` para agregar uno nuevo.
+- `COJIN`: tamaños y precios del cojín con foto.
+
+El recorte automático de la silueta del cojín se hace en el celular o computador del cliente (archivo `vendor/quitar-fondo.js`, de la librería libre @imgly/background-removal). La foto no se sube a ningún servidor.
 
 Para poner fotos reales, súbelas a la carpeta `fotos/` y escribe en el producto `foto: "fotos/nombre-de-la-foto.jpg"`.
 
